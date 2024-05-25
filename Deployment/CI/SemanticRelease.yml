@@ -1,0 +1,50 @@
+jobs:
+  - job: ci_semantic_release
+    displayName: CI SemanticRelease
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+          command: "build"
+          projects: "**/*.csproj"
+          arguments: --configuration release
+
+      - task: DotNetCoreCLI@2
+        displayName: Test
+        inputs:
+          command: "test"
+          projects: "**/*Tests.csproj"
+          arguments: --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
+          publishTestResults: false
+
+      - task: Powershell@2
+        displayName: 'Performance test'
+        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        inputs:
+          workingDirectory: $(Build.SourcesDirectory)/Src/Tests/Samuel.Performance.Tests
+          targetType: 'inline'
+          pwsh: true
+          script: dotnet run --configuration release --  --filter '*ChangelogPerformanceTests*'  --artifacts $(Build.ArtifactStagingDirectory)/Tests
+
+      - task: PublishBuildArtifacts@1
+        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        displayName: "Publish Artifact: PerformanceTest"
+        inputs:
+          PathtoPublish: $(Build.ArtifactStagingDirectory)/Tests
+          ArtifactName: "PerformanceTests"
+
+      - task: Powershell@2
+        displayName: 'Build Samuel'
+        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        inputs:
+          workingDirectory: $(Build.SourcesDirectory)/Src/Console
+          targetType: 'inline'
+          pwsh: true
+          script: dotnet pack --output $(Build.ArtifactStagingDirectory)/SemanticRelease
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Artifact: SemanticRelease"
+        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        inputs:
+          PathtoPublish: "$(Build.ArtifactStagingDirectory)/SemanticRelease"
+          ArtifactName: "SemanticRelease"

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Samuel.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "run --debug"
+    }
+  }
+}

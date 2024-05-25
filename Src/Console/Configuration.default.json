@@ -1,0 +1,19 @@
+{
+  "Git": {
+    "CommiterName": "ChangelogBot",
+    "CommiterEmail": "ChangelogBot@noreply.com",
+    "CommitMessageParseRegex": "^Merged PR (\\d+): (\\w*): (.*)"
+  },
+  "ChangelogGenerator": {
+    "OutputFilePath": "CHANGELOG.md",
+    "Title": "Changelog",
+    "IssueUrlFormat": "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+  },
+  "Publisher": {
+    "PublishFile": "CHANGELOG.md",
+    "CommitMessage": "[SKIP CI] Committed CHANGELOG.md"
+  },
+  "Nuget": {
+    "Source": "https://api.nuget.org/v3/index.json"
+  }
+}

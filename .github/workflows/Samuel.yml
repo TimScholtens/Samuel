@@ -1,17 +1,21 @@
-trigger:
-  branches:
-    include:
-      - master
+on: [push]
 
-stages:
-  - stage: ci
-    displayName: CI
-    jobs:
-      - template: CI/SemanticRelease.yml
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pass the received secret to an action
+        uses: ./.github/actions/my-action
+        with:
+          token: ${{ secrets.access-token }}
+  # - stage: ci
+  #   displayName: CI
+  #   jobs:
+  #     - template: CI/SemanticRelease.yml
   
-  - stage: cd
-    displayName: CD
-    jobs:
-      - template: CD/SemanticRelease.yml
+  # - stage: cd
+  #   displayName: CD
+  #   jobs:
+  #     - template: CD/SemanticRelease.yml
   
     # Publish to nuget

@@ -4,10 +4,8 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Pass the received secret to an action
-        uses: ./.github/actions/my-action
-        with:
-          token: ${{ secrets.access-token }}
+      - name: CI
+        uses: ./.github/actions/ci
   # - stage: ci
   #   displayName: CI
   #   jobs:

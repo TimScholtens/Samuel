@@ -1,3 +1,4 @@
+name: "Example"
 jobs:
   - job: ci_semantic_release
     displayName: CI SemanticRelease

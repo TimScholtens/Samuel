@@ -6,7 +6,7 @@ runs:
   steps:
   - name: DotNetCoreCLI@2
     shell: pwsh
-    run: dotnet run --configuration release
+    run: dotnet build --configuration release
 # jobs:
 #   - job: ci_semantic_release
 #     displayName: CI SemanticRelease

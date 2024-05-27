@@ -2,8 +2,10 @@
 name: "CI"
 description: "Build & tests program."
 runs:
+  using: composite
   steps:
   - name: DotNetCoreCLI@2
+    shell: pwsh
     run: dotnet run --configuration release
 # jobs:
 #   - job: ci_semantic_release

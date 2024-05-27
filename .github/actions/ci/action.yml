@@ -3,7 +3,6 @@ name: "CI"
 description: "Build & tests program."
 runs:
   steps:
-  - uses: actions/checkout@v4  
   - name: DotNetCoreCLI@2
     run: dotnet run --configuration release
 # jobs:

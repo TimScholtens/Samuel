@@ -4,41 +4,38 @@ description: "Build & tests program."
 runs:
   using: composite
   steps:
-  - name: DotNetCoreCLI@2
+  - name: Build
     shell: pwsh
     run: dotnet build --configuration release
 
-  - name: DotNetCoreCLI@2
+  - name: Test
     shell: pwsh
     run: dotnet test --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
 
-  - name: DotNetCoreCLI@2
+  - name: Performance test
+    if: github.ref == 'refs/heads/main'
     shell: pwsh
-    run: dotnet run --project Src/Tests/Samuel.Performance.Tests/Samuel.Performance.Tests.csproj --configuration release -- --filter '*ChangelogPerformanceTests*'  --artifacts artifacts
+    run: dotnet run --project Src/Tests/Samuel.Performance.Tests/Samuel.Performance.Tests.csproj --configuration release -- --filter '*ChangelogPerformanceTests*'  --artifacts outputs/performance-test-results
 
-  - name: Archive production artifacts
+  - name: Archive performance test results
+    if: github.ref == 'refs/heads/main'
     uses: actions/upload-artifact@v4
     with:
-      name: dist-without-markdown
-      path: |
-        artifacts
+      name: performance-test-results
+      path: outputs/performance-test-results
+  
+  - name: Pack
+    if: github.ref == 'refs/heads/main'
+    shell: pwsh
+    run: dotnet pack Src/Console/Samuel.CLI.csproj --output outputs/samuel
 
+  - name: Archive pack
+    if: github.ref == 'refs/heads/main'
+    uses: actions/upload-artifact@v4
+    with:
+      name: samuel
+      path: outputs/samuel
 
-#       - task: Powershell@2
-#         displayName: 'Performance test'
-#         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-#         inputs:
-#           workingDirectory: $(Build.SourcesDirectory)/Src/Tests/Samuel.Performance.Tests
-#           targetType: 'inline'
-#           pwsh: true
-#           script: dotnet run --configuration release --  --filter '*ChangelogPerformanceTests*'  --artifacts $(Build.ArtifactStagingDirectory)/Tests
-
-#       - task: PublishBuildArtifacts@1
-#         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-#         displayName: "Publish Artifact: PerformanceTest"
-#         inputs:
-#           PathtoPublish: $(Build.ArtifactStagingDirectory)/Tests
-#           ArtifactName: "PerformanceTests"
 
 #       - task: Powershell@2
 #         displayName: 'Build Samuel'

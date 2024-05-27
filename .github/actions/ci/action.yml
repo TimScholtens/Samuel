@@ -7,19 +7,22 @@ runs:
   - name: DotNetCoreCLI@2
     shell: pwsh
     run: dotnet build --configuration release
-# jobs:
-#   - job: ci_semantic_release
-#     displayName: CI SemanticRelease
-#     steps:
-      
 
-#       - task: DotNetCoreCLI@2
-#         displayName: Test
-#         inputs:
-#           command: "test"
-#           projects: "**/*Tests.csproj"
-#           arguments: --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
-#           publishTestResults: false
+  - name: DotNetCoreCLI@2
+    shell: pwsh
+    run: dotnet test --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
+
+  - name: DotNetCoreCLI@2
+    shell: pwsh
+    run: dotnet run --project Src/Tests/Samuel.Performance.Tests/Samuel.Performance.Tests.csproj --configuration release -- --filter '*ChangelogPerformanceTests*'  --artifacts artifacts
+
+  - name: Archive production artifacts
+    uses: actions/upload-artifact@v4
+    with:
+      name: dist-without-markdown
+      path: |
+        artifacts
+
 
 #       - task: Powershell@2
 #         displayName: 'Performance test'

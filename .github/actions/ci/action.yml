@@ -12,43 +12,26 @@ runs:
     shell: pwsh
     run: dotnet test --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
 
-  - name: Performance test
-    if: github.ref == 'refs/heads/main'
-    shell: pwsh
-    run: dotnet run --project Src/Tests/Samuel.Performance.Tests/Samuel.Performance.Tests.csproj --configuration release -- --filter '*ChangelogPerformanceTests*'  --artifacts outputs/performance-test-results
+  # - name: Performance test
+  #   if: github.ref == 'refs/heads/main'
+  #   shell: pwsh
+  #   run: dotnet run --project Src/Tests/Samuel.Performance.Tests/Samuel.Performance.Tests.csproj --configuration release -- --filter '*ChangelogPerformanceTests*'  --artifacts outputs/performance-test-results
 
-  - name: Archive performance test results
-    if: github.ref == 'refs/heads/main'
-    uses: actions/upload-artifact@v4
-    with:
-      name: performance-test-results
-      path: outputs/performance-test-results
+  # - name: Archive performance test results
+  #   if: github.ref == 'refs/heads/main'
+  #   uses: actions/upload-artifact@v4
+  #   with:
+  #     name: performance-test-results
+  #     path: outputs/performance-test-results
   
   - name: Pack
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     shell: pwsh
     run: dotnet pack Src/Console/Samuel.CLI.csproj --output outputs/samuel
 
   - name: Archive pack
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     uses: actions/upload-artifact@v4
     with:
       name: samuel
       path: outputs/samuel
-
-
-#       - task: Powershell@2
-#         displayName: 'Build Samuel'
-#         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-#         inputs:
-#           workingDirectory: $(Build.SourcesDirectory)/Src/Console
-#           targetType: 'inline'
-#           pwsh: true
-#           script: dotnet pack --output $(Build.ArtifactStagingDirectory)/SemanticRelease
-
-#       - task: PublishBuildArtifacts@1
-#         displayName: "Publish Artifact: SemanticRelease"
-#         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-#         inputs:
-#           PathtoPublish: "$(Build.ArtifactStagingDirectory)/SemanticRelease"
-#           ArtifactName: "SemanticRelease"

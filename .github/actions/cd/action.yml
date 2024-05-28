@@ -7,38 +7,7 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: samuel
-# jobs:
-#   - job: semantic_release
-#     displayName: Semantic Release
-#     steps:
-#     - checkout: self
-#       persistCredentials: true
-#       fetchDepth: 0
+    - name: Publish alpha package to Nuget
+      shell: pwsh
+      run: dotnet nuget push ./nupkg/Samuel.CLI.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
-#     - task: DownloadBuildArtifacts@0
-#       displayName: "Download Build Artifact"
-#       inputs:
-#         buildType: "current"
-#         downloadType: "single"
-#         artifactName: "SemanticRelease"
-#         downloadPath: "$(System.ArtifactsDirectory)/SemanticRelease"
-
-#     - task: Powershell@2
-#       displayName: 'Install Samuel'
-#       inputs:
-#         workingDirectory: "$(System.ArtifactsDirectory)/SemanticRelease/SemanticRelease"
-#         targetType: 'inline'
-#         pwsh: true
-#         script: dotnet tool install --global --add-source . Samuel.Cli
-#     - task: Powershell@2
-#       displayName: 'Run Samuel'
-#       env:
-#         Git__Credentials: $(System.AccessToken)
-#       inputs:
-#         targetType: 'inline'
-#         pwsh: true
-#         script: |
-#             git checkout master
-#             git fetch --all
-#             git pull
-#             samuel run --debug

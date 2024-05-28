@@ -1,5 +1,10 @@
-name: "CI"
-description: "Build & tests program."
+inputs:
+  NUGET_API_KEY:
+    description: 'Nuget API key'
+    required: true
+
+name: "CD"
+description: "Publish Nuget package"
 runs:
   using: composite
   steps: 

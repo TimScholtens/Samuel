@@ -1,6 +1,9 @@
 inputs:
-  NUGET_API_KEY:
-    description: 'Nuget API key'
+  SOURCE:
+    description: 'Artifact repository'
+    required: true
+  API_KEY:
+    description: 'API key'
     required: true
 
 name: "CD"
@@ -14,8 +17,8 @@ runs:
         name: samuel
     - name: Push package
       shell: pwsh 
-      run: dotnet nuget push "Samuel*.nupkg" --api-key ${{ inputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push "Samuel*.nupkg" --api-key ${{ inputs.API_KEY }} --source ${{ inputs.SOURCE }}  --skip-duplicate
 
 
-      1. dotnet nuget push "bin/Release/PROJECT_NAME.1.0.0.nupkg"  --api-key YOUR_GITHUB_PAT --source "github"
-      2. https://cloudlumberjack.com/posts/github-actions-approvals/
+      # 1. dotnet nuget push "bin/Release/PROJECT_NAME.1.0.0.nupkg"  --api-key YOUR_GITHUB_PAT --source "github"
+      # 2. https://cloudlumberjack.com/posts/github-actions-approvals/

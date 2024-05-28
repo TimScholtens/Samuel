@@ -6,7 +6,7 @@ runs:
     - name: Download Samuel artifact
       uses: actions/download-artifact@v4
       with:
-        name: outputs/samuel
+        name: samuel
 # jobs:
 #   - job: semantic_release
 #     displayName: Semantic Release

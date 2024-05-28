@@ -14,5 +14,5 @@ runs:
         name: samuel
     - name: Publish alpha package to Nuget
       shell: pwsh
-      run: dotnet nuget push ./nupkg/Samuel.CLI.1.0.0.nupkg --api-key ${{ inputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./.nupkg/Samuel.CLI.1.0.0.nupkg --api-key ${{ inputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 

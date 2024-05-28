@@ -7,9 +7,23 @@ jobs:
       - uses: actions/checkout@v4  
       - name: CI
         uses: ./.github/actions/ci
-  deploy_alpha_package:
+
+  deploy_test:
     runs-on: ubuntu-latest
+    environment: 'test'
     needs: ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: CD
+        with:
+          API_KEY: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE: github
+        uses: ./.github/actions/cd
+  
+  deploy_production:
+    runs-on: ubuntu-latest
+    environment: 'production'
+    needs: deploy_test
     steps:
       - uses: actions/checkout@v4
       - name: CD
@@ -17,10 +31,3 @@ jobs:
           API_KEY: ${{ secrets.NUGET_API_KEY }}
           SOURCE: 'https://api.nuget.org/v3/index.json'
         uses: ./.github/actions/cd
-  
-  # - stage: cd
-  #   displayName: CD
-  #   jobs:
-  #     - template: CD/SemanticRelease.yml
-  
-    # Publish to nuget

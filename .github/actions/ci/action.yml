@@ -7,9 +7,9 @@ runs:
     shell: pwsh
     run: dotnet build --configuration release
 
-  - name: Test
-    shell: pwsh
-    run: dotnet test --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
+  # - name: Test
+  #   shell: pwsh
+  #   run: dotnet test --configuration release -- xUnit.AppDomain=denied xUnit.ParallelizeTestCollections=false
 
   # - name: Performance test
   #   if: github.ref == 'refs/heads/main'

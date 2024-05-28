@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-	  <PackAsTool>true</PackAsTool>
-	  <ToolCommandName>samuel</ToolCommandName>
-	  <PackageOutputPath>./nupkg</PackageOutputPath>
-	  <UserSecretsId>a1551df0-e83d-458c-aa03-3b4e239e0f2f</UserSecretsId>
+	<PackageId>Samuel</PackageId>
+	<PackAsTool>true</PackAsTool>
+	<ToolCommandName>samuel</ToolCommandName>
+	<PackageOutputPath>./nupkg</PackageOutputPath>
+	<UserSecretsId>a1551df0-e83d-458c-aa03-3b4e239e0f2f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

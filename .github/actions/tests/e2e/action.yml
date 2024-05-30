@@ -20,3 +20,8 @@ runs:
       run: |
           dotnet new tool-manifest
           dotnet tool install Samuel --verbosity d
+
+    - name: Run Samuel
+      shell: pwsh
+      run: |
+          samuel --debug --dry-run

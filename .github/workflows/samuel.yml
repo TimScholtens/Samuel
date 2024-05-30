@@ -25,7 +25,6 @@ jobs:
           API_KEY: ${{ secrets.GITHUB_TOKEN }}
           SOURCE: 'https://nuget.pkg.github.com/TimScholtens/index.json'
 
-
   deploy_production:
     runs-on: ubuntu-latest
     environment: 'production'

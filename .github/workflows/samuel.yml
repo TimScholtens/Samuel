@@ -17,7 +17,7 @@ jobs:
       - name: CD
         with:
           API_KEY: ${{ secrets.GITHUB_TOKEN }}
-          SOURCE: 'https://nuget.pkg.github.com/NAMESPACE/index.json'
+          SOURCE: 'https://nuget.pkg.github.com/TimScholtens/index.json'
         uses: ./.github/actions/cd
   
   deploy_production:

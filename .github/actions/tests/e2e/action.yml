@@ -18,4 +18,5 @@ runs:
     - name: Install Samuel
       shell: pwsh
       run: |
+          dotnet new tool-manifest
           dotnet tool install Samuel --verbosity d

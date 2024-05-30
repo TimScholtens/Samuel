@@ -1,0 +1,38 @@
+on: [push]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  
+      - name: CI
+        uses: ./.github/actions/ci
+
+  deploy_test:
+    runs-on: ubuntu-latest
+    environment: 'test'
+    needs: ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: CD
+        uses: ./.github/actions/cd
+        with:
+          API_KEY: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE: 'https://nuget.pkg.github.com/TimScholtens/index.json'
+      - name: E2E test
+        uses: ./.github/actions/tests/e2e
+        with:
+          API_KEY: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE: 'https://nuget.pkg.github.com/TimScholtens/index.json'
+
+  deploy_production:
+    runs-on: ubuntu-latest
+    environment: 'production'
+    needs: deploy_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: CD
+        uses: ./.github/actions/cd
+        with:
+          API_KEY: ${{ secrets.NUGET_API_KEY }}
+          SOURCE: 'https://api.nuget.org/v3/index.json'

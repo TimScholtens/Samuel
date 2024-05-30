@@ -1,0 +1,20 @@
+inputs:
+  SOURCE:
+    description: 'Artifact repository'
+    required: true
+  API_KEY:
+    description: 'API key'
+    required: true
+
+name: "CD"
+description: "Publish Nuget package"
+runs:
+  using: composite
+  steps: 
+    - name: Download Samuel artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: samuel
+    - name: Push package
+      shell: pwsh 
+      run: dotnet nuget push "Samuel*.nupkg" --api-key ${{ inputs.API_KEY }} --source ${{ inputs.SOURCE }}  --skip-duplicate

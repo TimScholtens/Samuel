@@ -1,0 +1,27 @@
+inputs:
+  SOURCE:
+    description: 'Artifact repository'
+    required: true
+  API_KEY:
+    description: 'API key'
+    required: true
+
+name: E2E test
+description: "Download Samuel from nuget repository and run"
+runs:
+  using: composite
+  steps:
+    - name: Add private GitHub registry to NuGet
+      shell: pwsh
+      run: dotnet nuget add source ${{ inputs.SOURCE }} --name "github" --username USERNAME --password ${{ inputs.API_KEY }} --store-password-in-clear-text
+  
+    - name: Install Samuel
+      shell: pwsh
+      run: |
+          dotnet new tool-manifest
+          dotnet tool install --global Samuel --verbosity d
+
+    - name: Run Samuel
+      shell: pwsh
+      run: |
+          samuel run --debug --dry-run

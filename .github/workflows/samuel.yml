@@ -15,11 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: CD
+        uses: ./.github/actions/cd
         with:
           API_KEY: ${{ secrets.GITHUB_TOKEN }}
           SOURCE: 'https://nuget.pkg.github.com/TimScholtens/index.json'
-        uses: ./.github/actions/cd
-  
+      - name: E2E test
+        uses: ./.github/actions/tests/e2e
+        with:
+          API_KEY: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE: 'https://nuget.pkg.github.com/TimScholtens/index.json'
+
+
   deploy_production:
     runs-on: ubuntu-latest
     environment: 'production'
@@ -27,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: CD
+        uses: ./.github/actions/cd
         with:
           API_KEY: ${{ secrets.NUGET_API_KEY }}
           SOURCE: 'https://api.nuget.org/v3/index.json'
-        uses: ./.github/actions/cd

@@ -18,7 +18,3 @@ runs:
     - name: Push package
       shell: pwsh 
       run: dotnet nuget push "Samuel*.nupkg" --api-key ${{ inputs.API_KEY }} --source ${{ inputs.SOURCE }}  --skip-duplicate
-
-
-      # 1. dotnet nuget push "bin/Release/PROJECT_NAME.1.0.0.nupkg"  --api-key YOUR_GITHUB_PAT --source "github"
-      # 2. https://cloudlumberjack.com/posts/github-actions-approvals/

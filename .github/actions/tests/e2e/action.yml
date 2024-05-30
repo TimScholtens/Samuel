@@ -19,7 +19,7 @@ runs:
       shell: pwsh
       run: |
           dotnet new tool-manifest
-          dotnet tool install Samuel --verbosity d
+          dotnet tool install --global Samuel --verbosity d
 
     - name: Run Samuel
       shell: pwsh

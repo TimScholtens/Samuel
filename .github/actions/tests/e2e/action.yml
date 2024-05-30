@@ -14,6 +14,8 @@ runs:
     - name: Add private GitHub registry to NuGet
       shell: pwsh
       run: dotnet nuget add source ${{ inputs.SOURCE }} --name "github" --username USERNAME --password ${{ inputs.API_KEY }} --store-password-in-clear-text
-  # - name: Download Samuel
-  #   shell: pwsh
-  #   run: dotnet build --configuration release
+  
+    - name: Install Samuel
+      shell: pwsh
+      run: |
+          dotnet tool install Samuel --verbosity d

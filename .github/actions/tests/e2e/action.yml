@@ -12,6 +12,7 @@ runs:
   using: composite
   steps:
     - name: Add private GitHub registry to NuGet
+      shell: pwsh
       run: dotnet nuget add source --source ${{ inputs.SOURCE }} --name "github" --api-key ${{ inputs.API_KEY }}
   # - name: Download Samuel
   #   shell: pwsh

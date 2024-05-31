@@ -11,6 +11,28 @@ namespace Samuel.Infrastructure.Tests.Git;
 [Trait("Category", "Integration")]
 public class GitServiceTests
 {
+    #region Constructor
+    [Fact]
+    public void Constructor_WhenNoRepostory_ShouldThrow()
+    {
+        // Arrange
+        var options = Options.Create(new GitOptions()
+        {
+            CommiterEmail = "ChangelogBot",
+            CommiterName = "ChangelogBot@noreply.com",
+            CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
+        });
+        var mapper = A.Fake<IGitServiceMapper>();
+        var logger = A.Fake<ILogger<GitService>>();
+
+        // Act
+        Action result = () => new GitService(options, mapper, null, logger);
+
+        // Assert
+        result.Should().Throw<ArgumentException>("No repository found.");
+    }
+    #endregion
+
     #region GetCommits
     [Fact]
     public void GetCommits_WhenNone_ShouldReturnEmptyList()

@@ -9,7 +9,11 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddGitService(this IServiceCollection services)
     {
         // Add local repository.
-        var repository = new Repository(Repository.Discover("."), new RepositoryOptions() { });
+        var repositoryPath = Repository.Discover(".");
+        Repository? repository = null;
+        if (repositoryPath != null) {
+            repository = new Repository(repositoryPath, new RepositoryOptions() { });
+        }
 
         services
             .AddSingleton(repository)

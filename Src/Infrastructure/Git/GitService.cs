@@ -15,18 +15,22 @@ public class GitService : IGitService
     private Repository _repository;
     private CredentialsHandler _credentialsHandler;
 
-    public GitService(IOptions<GitOptions> configurationOptions, IGitServiceMapper mapper, Repository repository, ILogger<GitService> logger)
+    public GitService(IOptions<GitOptions> configurationOptions, IGitServiceMapper mapper, Repository? repository, ILogger<GitService> logger)
     {
         _configuration = configurationOptions.Value;
         _mapper = mapper;
         _logger = logger;
-        _repository = repository;
+        _repository = repository!;
         _credentialsHandler = new CredentialsHandler((url, usernameFromUrl, types) =>
             new UsernamePasswordCredentials()
             {
                 Username = _configuration.Username,
                 Password = _configuration.Password ?? _configuration.Credentials
             });
+        if (repository == null)
+        {
+            throw new ArgumentException("No repository found.");
+        }
     }
 
     public List<Domain.Commit> GetCommits()

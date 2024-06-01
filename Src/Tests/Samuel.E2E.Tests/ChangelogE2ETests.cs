@@ -71,8 +71,50 @@ public class ChangelogE2ETests
         var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
 
         exitCode.Should().Be(0);
-        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching, closes issue(s): .{Environment.NewLine}");
+        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching{Environment.NewLine}");
     }
 
+    [Fact]
+    public void GenerateChangelog_WhenOneBreakingChangeAndLinkedIssue_ShouldGenerateChangelogWithBreakingChangeAndLinkedIssue()
+    {
+        // Arrange
+        var path = Path.Combine(Path.GetTempPath(), $"samuel-{Guid.NewGuid()}");
 
+        new LibGitRepositoryBuilder(path)
+            .WithCommit("Merged PR 1: BREAKING: added caching\\r\\n\\r\\n    wip\\r\\n\\r\\n    Related work items: #22, #23")
+            .Build();
+
+        Directory.SetCurrentDirectory(path);
+
+        // Act
+        var exitCode = Program.Main(["run", "--dry-run", "--debug"]);
+
+        // Assert
+        var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
+
+        exitCode.Should().Be(0);
+        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching, closes issues #22,#23{Environment.NewLine}");
+    }
+
+    [Fact]
+    public void GenerateChangelog_WhenTwoBreakingChanges_ShouldGenerateChangelogWithBreakingChanges()
+    {
+        // Arrange
+        var path = Path.Combine(Path.GetTempPath(), $"samuel-{Guid.NewGuid()}");
+
+        new LibGitRepositoryBuilder(path)
+            .WithCommit("Merged PR 1: BREAKING: added caching\\r\\n\\r\\n    wip\\r\\n\\r\\n    Related work items: #22, #23")
+            .Build();
+
+        Directory.SetCurrentDirectory(path);
+
+        // Act
+        var exitCode = Program.Main(["run", "--dry-run", "--debug"]);
+
+        // Assert
+        var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
+
+        exitCode.Should().Be(0);
+        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching, closes issues #22,#23{Environment.NewLine}");
+    }
 }

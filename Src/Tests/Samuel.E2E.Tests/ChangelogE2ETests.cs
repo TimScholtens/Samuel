@@ -71,7 +71,11 @@ public class ChangelogE2ETests
         var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
 
         exitCode.Should().Be(0);
-        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}");
+        changelogContent.Should().Be(string.Join(Environment.NewLine,
+                                                "# Changelog",
+                                                "## 1.0.0",
+                                                "*Features*",
+                                                $"- Merged PR 1: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}"));
     }
 
     [Fact]

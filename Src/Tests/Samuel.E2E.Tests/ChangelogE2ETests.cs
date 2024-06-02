@@ -97,7 +97,11 @@ public class ChangelogE2ETests
         var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
 
         exitCode.Should().Be(0);
-        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}");
+        changelogContent.Should().Be(string.Join(Environment.NewLine,
+                                        "# Changelog",
+                                        "## 1.0.0",
+                                        "*Features*",
+                                        $"- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}"));                       
     }
 
     [Fact]
@@ -120,7 +124,13 @@ public class ChangelogE2ETests
         var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
 
         exitCode.Should().Be(0);
-        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 2: BREAKING: added logging, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).{Environment.NewLine}- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}");
+        changelogContent.Should().Be(string.Join(Environment.NewLine,
+                                        "# Changelog",
+                                        "## 1.0.0",
+                                        "*Features*",
+                                        "- Merged PR 2: BREAKING: added logging, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).",
+                                        $"- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}"));
+
     }
 
     [Fact]
@@ -144,6 +154,13 @@ public class ChangelogE2ETests
         var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
 
         exitCode.Should().Be(0);
-        changelogContent.Should().Be($"# Changelog{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 2: BREAKING: added logging, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).{Environment.NewLine}- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}");
+        changelogContent.Should().Be(string.Join(Environment.NewLine,
+                                                 "# Changelog",
+                                                 "## 2.0.0",
+                                                 "*Features*",
+                                                 $"- Merged PR 2: BREAKING: added logging, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).{Environment.NewLine}",
+                                                 "## 1.0.0",
+                                                 "*Features*",
+                                                 $"- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}"));
     }
 }

@@ -19,7 +19,7 @@ public class MarkdownWriter : IChangelogWriter
 
     public void WriteChange(string text)
     {
-        _textBuffer.Append($"- {text}");
+        _textBuffer.AppendLine($"- {text}");
     }
 
     public void WriteHeader(string text)

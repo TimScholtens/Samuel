@@ -12,8 +12,8 @@ public class GitService : IGitService
     private readonly GitOptions _configuration;
     private readonly IGitServiceMapper _mapper;
     private readonly ILogger<GitService> _logger;
-    private Repository _repository;
-    private CredentialsHandler _credentialsHandler;
+    private readonly Repository _repository;
+    private readonly CredentialsHandler _credentialsHandler;
 
     public GitService(IOptions<GitOptions> configurationOptions, IGitServiceMapper mapper, Repository? repository, ILogger<GitService> logger)
     {
@@ -33,6 +33,18 @@ public class GitService : IGitService
         }
     }
 
+    public Domain.Commit? GetCommit(string sha)
+    {
+        var commit = _repository.Commits.FirstOrDefault(c => c.Sha == sha);
+
+        if (commit != null)
+        {
+            return _mapper.Map(commit);
+        }
+
+        return null;
+    }
+
     public List<Domain.Commit> GetCommits()
     {
         return _repository.Commits.Select(c => _mapper.Map(c)).ToList();
@@ -43,7 +55,7 @@ public class GitService : IGitService
     /// </summary>
     /// <param name="commitSha">SHA of commit of interest</param>
     /// <returns>Returns all commits that happened after given commit, excluding given commit.</returns>
-    public List<Domain.Commit> GetCommitsSince(string commitSha)
+    public List<Domain.Commit> GetCommitsAfter(string commitSha)
     {
         var commitIndex = _repository.Commits.ToList().FindIndex(c => c.Sha == commitSha);
 
@@ -140,13 +152,14 @@ public class GitService : IGitService
         for (int index = 0; index < tags.Count; index++)
         {
             var currentTag = tags[index];
+            var currentCommit = GetCommit(currentTag.CommitSha);
 
             // If no previous tag.
             if (index == 0)
             {
                 releases.Add(new Release()
                 {
-                    Commits = GetCommitsBefore(currentTag.CommitSha),
+                    Commits = [currentCommit, ..GetCommitsBefore(currentTag.CommitSha)],
                     Tag = currentTag
                 });
                 continue;
@@ -155,7 +168,7 @@ public class GitService : IGitService
             var previousTag = tags[index - 1];
 
             _logger.LogDebug($"{nameof(GitService)}: Retrieving commits between tags {previousTag.Name}({previousTag.CommitSha}) to {currentTag.Name}({currentTag.CommitSha})...");
-            var commitsBetweenTags = GetCommitsBetween(previousTag.CommitSha, currentTag.CommitSha);
+            List<Domain.Commit> commitsBetweenTags = [currentCommit, .. GetCommitsBetween(previousTag.CommitSha, currentTag.CommitSha)];
 
             _logger.LogDebug($"{nameof(GitService)}: Found {commitsBetweenTags.Count} commits.");
 

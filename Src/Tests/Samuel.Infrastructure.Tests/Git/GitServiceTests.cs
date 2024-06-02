@@ -125,7 +125,7 @@ public class GitServiceTests
         var sut = new GitService(options, mapper, repo, logger);
 
         // Act
-        var commits = sut.GetCommitsSince(repo.Commits.Last().Sha);
+        var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
 
         // Assert
         commits.Should().HaveCount(1);
@@ -151,7 +151,7 @@ public class GitServiceTests
         var sut = new GitService(options, mapper, repo, logger);
 
         // Act
-        var commits = sut.GetCommitsSince(repo.Commits.Last().Sha);
+        var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
 
         // Assert
         commits.Should().HaveCount(2);
@@ -175,7 +175,7 @@ public class GitServiceTests
         var sut = new GitService(options, mapper, repo, logger);
 
         // Act
-        var commits = sut.GetCommitsSince(repo.Commits.Last().Sha);
+        var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
 
         // Assert
         commits.Should().HaveCount(0);

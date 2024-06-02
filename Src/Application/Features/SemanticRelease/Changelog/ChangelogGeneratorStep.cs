@@ -65,13 +65,13 @@ public class ChangelogGeneratorStep : IPipelineStep
 
     private string FormatCommitMessage(Commit commit, string? issueUrlFormat)
     {
-        if (issueUrlFormat is not null && commit.RelatedWorkItemsIds is not null)
+        if (issueUrlFormat is not null && commit.RelatedWorkItemsIds?.Length > 0)
         {
             var issueIdsWithUrl = commit.RelatedWorkItemsIds.Select(i => $"[{i}]({_config.IssueUrlFormat}/{i})");
             return $"{commit.Title}, closes issue(s): {string.Join(',', issueIdsWithUrl)}.";
         }
 
-        return commit.RawContent;
+        return commit.Title;
     }
 }
 

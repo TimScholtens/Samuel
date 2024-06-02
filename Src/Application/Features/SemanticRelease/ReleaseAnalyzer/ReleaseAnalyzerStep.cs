@@ -26,7 +26,7 @@ public class ReleaseAnalyzerStep : IPipelineStep
         if (latestRelease != null) { _logger.LogInformation($"{nameof(ReleaseAnalyzerStep)}: Latest release found '{latestRelease.Tag.Name}'"); }
 
         // Get new commits.
-        var newCommits = latestRelease is null ? _gitService.GetCommits() : _gitService.GetCommitsSince(latestRelease.Tag.CommitSha);
+        var newCommits = latestRelease is null ? _gitService.GetCommits() : _gitService.GetCommitsAfter(latestRelease.Tag.CommitSha);
         _logger.LogInformation($"{nameof(ReleaseAnalyzerStep)}: Found {newCommits.Count} new commit(s)...");
 
         // Set new commits & new release.

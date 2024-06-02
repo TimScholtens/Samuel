@@ -43,7 +43,7 @@ public class GitService : IGitService
     /// </summary>
     /// <param name="commitSha">SHA of commit of interest</param>
     /// <returns>Returns all commits that happened after given commit, excluding given commit.</returns>
-    public List<Domain.Commit> GetCommitsSince(string commitSha)
+    public List<Domain.Commit> GetCommitsAfter(string commitSha)
     {
         var commitIndex = _repository.Commits.ToList().FindIndex(c => c.Sha == commitSha);
 
@@ -129,6 +129,8 @@ public class GitService : IGitService
 
     public List<Release> GetAllReleases()
     {
+        TODO Add tag commit itself.
+
         var releases = new List<Release>();
         var tags = _repository.Tags
             .Select(t => _mapper.Map(t))

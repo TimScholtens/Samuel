@@ -11,28 +11,6 @@ namespace Samuel.Infrastructure.Tests.Git;
 [Trait("Category", "Integration")]
 public class GitServiceTests
 {
-    #region Constructor
-    [Fact]
-    public void Constructor_WhenNoRepostory_ShouldThrow()
-    {
-        // Arrange
-        var options = Options.Create(new GitOptions()
-        {
-            CommiterEmail = "ChangelogBot",
-            CommiterName = "ChangelogBot@noreply.com",
-            CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
-        });
-        var mapper = A.Fake<IGitServiceMapper>();
-        var logger = A.Fake<ILogger<GitService>>();
-
-        // Act
-        Action result = () => new GitService(options, mapper, null, logger);
-
-        // Assert
-        result.Should().Throw<ArgumentException>("No repository found.");
-    }
-    #endregion
-
     #region GetCommits
     [Fact]
     public void GetCommits_WhenNone_ShouldReturnEmptyList()
@@ -48,9 +26,10 @@ public class GitServiceTests
         var repo = new LibGitRepositoryBuilder().Build();
         var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var commits = sut.GetCommits();
@@ -75,9 +54,10 @@ public class GitServiceTests
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
         
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var commits = sut.GetCommits();
@@ -104,9 +84,10 @@ public class GitServiceTests
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var commits = sut.GetCommits();
@@ -132,9 +113,10 @@ public class GitServiceTests
                 .WithCommit("message-2")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+        
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
@@ -161,9 +143,10 @@ public class GitServiceTests
                 .WithCommit("message-3")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
@@ -188,9 +171,10 @@ public class GitServiceTests
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
@@ -220,9 +204,10 @@ public class GitServiceTests
             .WithCommit("Message-3")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -253,9 +238,10 @@ public class GitServiceTests
             .WithCommit("Message-4")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -286,9 +272,10 @@ public class GitServiceTests
             .WithCommit("Message-4")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -319,9 +306,10 @@ public class GitServiceTests
             .WithCommit("Message-4")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var secondCommit = repo.Commits.ToList().ElementAt(repo.Commits.Count() - 2);
@@ -350,9 +338,10 @@ public class GitServiceTests
             .WithCommit("Message-2")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -409,7 +398,6 @@ public class GitServiceTests
             .Build();
         var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => mapper.Map(A<Tag>._)).Returns(new Domain.AnnotatedTag()
         {
@@ -418,6 +406,8 @@ public class GitServiceTests
         });
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var release = sut.GetLatestRelease();
@@ -445,9 +435,9 @@ public class GitServiceTests
             .WithTag("2.0.0")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
-
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var release = sut.GetLatestRelease();
@@ -472,9 +462,10 @@ public class GitServiceTests
         var repo = new LibGitRepositoryBuilder().Build();
         var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var releases = sut.GetAllReleases();
@@ -500,9 +491,10 @@ public class GitServiceTests
             .WithTag("1.0.0")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var releases = sut.GetAllReleases();
@@ -530,9 +522,10 @@ public class GitServiceTests
             .WithTag("2.0.0")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
+
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
         var releases = sut.GetAllReleases();

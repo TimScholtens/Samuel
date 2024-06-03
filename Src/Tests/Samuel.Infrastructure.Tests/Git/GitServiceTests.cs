@@ -46,8 +46,11 @@ public class GitServiceTests
         });
         var mapper = A.Fake<IGitServiceMapper>();
         var repo = new LibGitRepositoryBuilder().Build();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var commits = sut.GetCommits();
@@ -67,11 +70,14 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+        
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var commits = sut.GetCommits();
@@ -93,11 +99,14 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var commits = sut.GetCommits();
@@ -117,12 +126,15 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
                 .WithCommit("message-1")
                 .WithCommit("message-2")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
@@ -142,13 +154,16 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
                 .WithCommit("message-1")
                 .WithCommit("message-2")
                 .WithCommit("message-3")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
@@ -168,11 +183,14 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var commits = sut.GetCommitsAfter(repo.Commits.Last().Sha);
@@ -195,13 +213,16 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .WithCommit("Message-2")
             .WithCommit("Message-3")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -224,6 +245,7 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .WithCommit("Message-2")
@@ -231,7 +253,9 @@ public class GitServiceTests
             .WithCommit("Message-4")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -254,6 +278,7 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .WithCommit("Message-2")
@@ -261,7 +286,9 @@ public class GitServiceTests
             .WithCommit("Message-4")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -284,6 +311,7 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .WithCommit("Message-2")
@@ -291,7 +319,9 @@ public class GitServiceTests
             .WithCommit("Message-4")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var secondCommit = repo.Commits.ToList().ElementAt(repo.Commits.Count() - 2);
@@ -314,12 +344,15 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("Message-1")
             .WithCommit("Message-2")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var firstCommit = repo.Commits.Last();
@@ -344,9 +377,12 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = A.Fake<IGitServiceMapper>();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder().Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var release = sut.GetLatestRelease();
@@ -371,14 +407,17 @@ public class GitServiceTests
             .WithCommit("message-1")
             .WithTag("1.0.0")
             .Build();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
 
         A.CallTo(() => mapper.Map(A<Tag>._)).Returns(new Domain.AnnotatedTag()
         {
             Version = new Domain.SemanticVersion(1, 0, 0),
             Name = "1.0.0"
         });
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var release = sut.GetLatestRelease();
@@ -398,6 +437,7 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = new GitServiceMapper(options);
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("message-1")
             .WithTag("1.0.0")
@@ -405,7 +445,9 @@ public class GitServiceTests
             .WithTag("2.0.0")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var release = sut.GetLatestRelease();
@@ -428,8 +470,11 @@ public class GitServiceTests
         });
         var mapper = new GitServiceMapper(options);
         var repo = new LibGitRepositoryBuilder().Build();
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var releases = sut.GetAllReleases();
@@ -449,12 +494,15 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = new GitServiceMapper(options);
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("message-1")
             .WithTag("1.0.0")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var releases = sut.GetAllReleases();
@@ -474,6 +522,7 @@ public class GitServiceTests
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
         var mapper = new GitServiceMapper(options);
+        var repoFactory = A.Fake<IRepositoryFactory>();
         var repo = new LibGitRepositoryBuilder()
             .WithCommit("message-1")
             .WithTag("1.0.0")
@@ -481,7 +530,9 @@ public class GitServiceTests
             .WithTag("2.0.0")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        var sut = new GitService(options, mapper, repo, logger);
+        var sut = new GitService(options, mapper, repoFactory, logger);
+
+        A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         // Act
         var releases = sut.GetAllReleases();

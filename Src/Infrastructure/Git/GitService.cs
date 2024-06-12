@@ -209,8 +209,7 @@ public class GitService : IGitService
         // Get relative path from .git folder to application working directory.
         var absoluteFilePath = Path.Combine(Environment.CurrentDirectory, filePath);
         var relativeFilePathToRoot = Path.GetRelativePath(_repository.Info.WorkingDirectory, absoluteFilePath);
-        _repository.Index.Add(relativeFilePathToRoot);
-        _repository.Index.Write();
+        Commands.Stage(_repository, relativeFilePathToRoot);
     }
 
     public void Tag(string newVersionName)

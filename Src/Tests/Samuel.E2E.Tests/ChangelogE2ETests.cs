@@ -169,12 +169,13 @@ public class ChangelogE2ETests
     {
         // Arrange
         var path = Path.Combine(Path.GetTempPath(), $"samuel-{Guid.NewGuid()}");
+        var commitTime = DateTimeOffset.UtcNow;
 
         new LibGitRepositoryBuilder(path)
-            .WithCommit($"Merged PR 1: Fix: fixed caching{Environment.NewLine}{Environment.NewLine}wip{Environment.NewLine}{Environment.NewLine}Related work items: #24")
-            .WithCommit($"Merged PR 2: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}wip{Environment.NewLine}{Environment.NewLine}Related work items: #22, #23")
+            .WithCommit($"Merged PR 1: Fix: fixed caching{Environment.NewLine}{Environment.NewLine}wip{Environment.NewLine}{Environment.NewLine}Related work items: #24", commitTime)
+            .WithCommit($"Merged PR 2: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}wip{Environment.NewLine}{Environment.NewLine}Related work items: #22, #23", commitTime.AddSeconds(1))
             .WithTag("1.0.0")
-            .WithCommit($"Merged PR 3: BREAKING: added logging{Environment.NewLine}{Environment.NewLine}wip{Environment.NewLine}{Environment.NewLine}Related work items: #25")
+            .WithCommit($"Merged PR 3: BREAKING: added logging{Environment.NewLine}{Environment.NewLine}wip{Environment.NewLine}{Environment.NewLine}Related work items: #25", commitTime.AddSeconds(1))
             .Build();
 
         Directory.SetCurrentDirectory(path);

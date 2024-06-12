@@ -15,7 +15,7 @@ public class LibGitRepositoryBuilder
         _repository = new Repository(_repoPath);
     }
 
-    public LibGitRepositoryBuilder WithCommit(string message)
+    public LibGitRepositoryBuilder WithCommit(string message, DateTimeOffset? when = null)
     {
         // Create & stage file.
         var filePath = Path.Combine(_repoPath, $"{Guid.NewGuid()}.txt");
@@ -23,11 +23,8 @@ public class LibGitRepositoryBuilder
 
         var relativeFilePathToRoot = Path.GetRelativePath(_repository.Info.WorkingDirectory, filePath);
         Commands.Stage(_repository, relativeFilePathToRoot);
+        _repository.Commit(message, new Signature("bot", "bot@noreply.com", when ?? DateTimeOffset.UtcNow), new Signature("bot", "bot@noreply.com", when ?? DateTimeOffset.UtcNow));
 
-
-        _repository.Commit(message, new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow), new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow));
-
-        Thread.Sleep(1000); // Apparently the call above isn't finished when reaching this line.
         return this;
     }
 

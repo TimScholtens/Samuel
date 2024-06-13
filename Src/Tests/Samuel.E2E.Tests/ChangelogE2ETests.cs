@@ -6,6 +6,7 @@ using Samuel.Infrastructure.Tests.Helpers;
 namespace Samuel.E2E.Tests;
 
 [Trait("Category", "E2E")]
+[Collection("Sequential")]
 public class ChangelogE2ETests
 {
     [Fact]

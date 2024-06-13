@@ -7,6 +7,7 @@ using System.Text.Json;
 namespace Samuel.E2E.Tests;
 
 [Trait("Category", "E2E")]
+[Collection("Sequential")]
 public class ConfigurationE2ETests
 {
     [Fact]

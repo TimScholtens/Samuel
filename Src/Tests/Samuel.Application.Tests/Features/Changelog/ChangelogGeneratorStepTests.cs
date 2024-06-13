@@ -49,7 +49,7 @@ public class ChangelogGeneratorStepTests
         // Assert
         A.CallTo(() => writer.WriteTitle(options.Value.Title)).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(context.NewRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Features")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FeatureSectionTitle)).MustHaveHappenedOnceExactly();
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class ChangelogGeneratorStepTests
         A.CallTo(() => writer.WriteTitle(options.Value.Title)).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(newRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(oldRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Features")).MustHaveHappenedTwiceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FeatureSectionTitle)).MustHaveHappenedTwiceExactly();
     }
 
 
@@ -149,7 +149,7 @@ public class ChangelogGeneratorStepTests
         // Assert
         A.CallTo(() => writer.WriteTitle(options.Value.Title)).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(context.NewRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Features")).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Fixes")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FeatureSectionTitle)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FixSectionTitle)).MustHaveHappenedOnceExactly();
     }
 }

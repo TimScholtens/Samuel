@@ -9,7 +9,7 @@
     "IssueUrlFormat": "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit",
     "Title": "Changelog",
     "FeatureSectionTitle": ":star: Features",
-    "FixesSectionTitle": ":bug: Fixes"
+    "FixSectionTitle": ":bug: Fixes"
   },
   "Publisher": {
     "PublishFile": "CHANGELOG.md",

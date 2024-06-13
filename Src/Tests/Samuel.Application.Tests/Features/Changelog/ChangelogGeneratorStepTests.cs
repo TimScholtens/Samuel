@@ -21,7 +21,9 @@ public class ChangelogGeneratorStepTests
         {
             OutputFilePath = "Changelog.md",
             Title = "Test",
-            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/",
+            FeatureSectionTitle = "*Features*",
+            FixSectionTitle = "*Fixes*"
         });
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();
@@ -58,7 +60,9 @@ public class ChangelogGeneratorStepTests
         {
             OutputFilePath = "Changelog.md",
             Title = "Test",
-            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/",
+            FeatureSectionTitle = "*Features*",
+            FixSectionTitle = "*Fixes*"
         });
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();
@@ -113,7 +117,9 @@ public class ChangelogGeneratorStepTests
         {
             OutputFilePath = "Changelog.md",
             Title = "Test",
-            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/",
+            FeatureSectionTitle = "*Features*",
+            FixSectionTitle = "*Fixes*"
         });
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();

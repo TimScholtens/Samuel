@@ -36,7 +36,7 @@ public class ChangelogGeneratorStep : IPipelineStep
             _writer.WriteHeader($"{release.Tag.Version}");
 
             // Write features.
-            _writer.WriteSubTitle("Features");
+            _writer.WriteSubTitle(_config.FeatureSectionTitle);
             foreach (var commit in release.Commits!.Where(c => c.Type == CommitType.Feature || c.Type == CommitType.Breaking))
             {
                 var commitMessage = FormatCommitMessage(commit, _config.IssueUrlFormat);
@@ -48,7 +48,7 @@ public class ChangelogGeneratorStep : IPipelineStep
                 _writer.WriteLine();
 
                 // Write fixes.
-                _writer.WriteSubTitle("Fixes");
+                _writer.WriteSubTitle(_config.FixSectionTitle);
                 foreach (var commit in release.Commits!.Where(c => c.Type == CommitType.Fix))
                 {
                     var commitMessage = FormatCommitMessage(commit, _config.IssueUrlFormat);

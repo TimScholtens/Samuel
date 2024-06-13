@@ -45,6 +45,8 @@ public class ChangelogGeneratorStep : IPipelineStep
 
             if (release.Commits.Any(c => c.Type == CommitType.Fix))
             {
+                _writer.WriteLine();
+
                 // Write fixes.
                 _writer.WriteSubTitle("Fixes");
                 foreach (var commit in release.Commits!.Where(c => c.Type == CommitType.Fix))

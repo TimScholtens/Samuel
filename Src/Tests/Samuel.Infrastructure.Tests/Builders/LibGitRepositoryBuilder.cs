@@ -1,5 +1,4 @@
 ﻿using LibGit2Sharp;
-using System.IO;
 
 namespace Samuel.Infrastructure.Tests.Helpers;
 
@@ -16,16 +15,16 @@ public class LibGitRepositoryBuilder
         _repository = new Repository(_repoPath);
     }
 
-    public LibGitRepositoryBuilder WithCommit(string message)
+    public LibGitRepositoryBuilder WithCommit(string message, DateTimeOffset? when = null)
     {
         // Create & stage file.
         var filePath = Path.Combine(_repoPath, $"{Guid.NewGuid()}.txt");
         File.Create(filePath).Dispose();
 
         var relativeFilePathToRoot = Path.GetRelativePath(_repository.Info.WorkingDirectory, filePath);
-        _repository.Index.Add(relativeFilePathToRoot);
-        _repository.Index.Write();
-        _repository.Commit(message, new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow), new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow));
+        Commands.Stage(_repository, relativeFilePathToRoot);
+        _repository.Commit(message, new Signature("bot", "bot@noreply.com", when ?? DateTimeOffset.UtcNow), new Signature("bot", "bot@noreply.com", when ?? DateTimeOffset.UtcNow));
+
         return this;
     }
 
@@ -38,9 +37,8 @@ public class LibGitRepositoryBuilder
             File.Create(filePath).Dispose();
 
             var relativeFilePathToRoot = Path.GetRelativePath(_repository.Info.WorkingDirectory, filePath);
-            _repository.Index.Add(relativeFilePathToRoot);
-            _repository.Index.Write();
-            _repository.Commit($"{commitMessage}-{i}", new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow), new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow));
+            Commands.Stage(_repository, relativeFilePathToRoot);
+            _repository.Commit($"{commitMessage}-{i}", new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow.AddMilliseconds(i * 1000)), new Signature("bot", "bot@noreply.com", DateTimeOffset.UtcNow.AddMilliseconds(i * 1000)));
         }
 
         return this;

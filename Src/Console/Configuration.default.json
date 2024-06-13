@@ -6,8 +6,10 @@
   },
   "ChangelogGenerator": {
     "OutputFilePath": "CHANGELOG.md",
+    "IssueUrlFormat": "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit",
     "Title": "Changelog",
-    "IssueUrlFormat": "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit"
+    "FeatureSectionTitle": ":star: Features",
+    "FixSectionTitle": ":bug: Fixes"
   },
   "Publisher": {
     "PublishFile": "CHANGELOG.md",

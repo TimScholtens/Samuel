@@ -75,7 +75,7 @@ public class ChangelogE2ETests
         changelogContent.Should().Be(string.Join(Environment.NewLine,
                                                 "# Changelog",
                                                 "## 1.0.0",
-                                                "*Features*",
+                                                "*:star: Features*",
                                                 $"- Merged PR 1: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}"));
     }
 
@@ -101,7 +101,7 @@ public class ChangelogE2ETests
         changelogContent.Should().Be(string.Join(Environment.NewLine,
                                         "# Changelog",
                                         "## 1.0.0",
-                                        "*Features*",
+                                        "*:star: Features*",
                                         $"- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}"));
     }
 
@@ -128,7 +128,7 @@ public class ChangelogE2ETests
         changelogContent.Should().Be(string.Join(Environment.NewLine,
                                         "# Changelog",
                                         "## 1.0.0",
-                                        "*Features*",
+                                        "*:star: Features*",
                                         "- Merged PR 2: BREAKING: added logging, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).",
                                         $"- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}"));
 
@@ -158,10 +158,10 @@ public class ChangelogE2ETests
         changelogContent.Should().Be(string.Join(Environment.NewLine,
                                                  "# Changelog",
                                                  "## 2.0.0",
-                                                 "*Features*",
+                                                 "*:star: Features*",
                                                  $"- Merged PR 2: BREAKING: added logging, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).{Environment.NewLine}",
                                                  "## 1.0.0",
-                                                 "*Features*",
+                                                 "*:star: Features*",
                                                  $"- Merged PR 1: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}{Environment.NewLine}"));
     }
 
@@ -191,12 +191,12 @@ public class ChangelogE2ETests
         changelogContent.Should().Be(string.Join(Environment.NewLine,
                                                  "# Changelog",
                                                  "## 2.0.0",
-                                                 "*Features*",
+                                                 "*:star: Features*",
                                                  $"- Merged PR 3: BREAKING: added logging, closes issue(s): [25](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/25).{Environment.NewLine}",
                                                  "## 1.0.0",
-                                                 "*Features*",
+                                                 "*:star: Features*",
                                                  $"- Merged PR 2: BREAKING: added caching, closes issue(s): [22](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/22),[23](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/23).{Environment.NewLine}",
-                                                 $"*Fixes*",
+                                                 $"*:bug: Fixes*",
                                                  $"- Merged PR 1: Fix: fixed caching, closes issue(s): [24](https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/24).{Environment.NewLine}{Environment.NewLine}"));
     }
 }

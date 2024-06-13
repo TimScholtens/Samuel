@@ -22,7 +22,7 @@ public class ConfigurationE2ETests
 
         Directory.SetCurrentDirectory(path);
 
-        var configurationOptions = new { ChangelogGenerator = new { Title = "NewChangelogTitle" } };
+        var configurationOptions = new { ChangelogGenerator = new { Title = "NewChangelogTitle", FeaturesSectionTitle = ":star: Features", FixesSectionTitle = ":bug: Fixes" } };
         var jsonConfigurationOptions = JsonSerializer.Serialize(configurationOptions);
 
         CreateConfigurationFile(path, jsonConfigurationOptions);
@@ -34,7 +34,11 @@ public class ConfigurationE2ETests
         var changelogContent = ChangelogReader.GetChangeLogContent(Path.Combine(path, "CHANGELOG.md"));
 
         exitCode.Should().Be(0);
-        changelogContent.Should().Be($"# NewChangelogTitle{Environment.NewLine}## 1.0.0{Environment.NewLine}*Features*{Environment.NewLine}- Merged PR 1: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}");
+        changelogContent.Should().Be(string.Join(Environment.NewLine,
+                                        $"# {configurationOptions.ChangelogGenerator.Title}",
+                                        "## 1.0.0",
+                                        $"*{configurationOptions.ChangelogGenerator.FeaturesSectionTitle}*",
+                                        $"- Merged PR 1: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}"));
     }
 
     private void CreateConfigurationFile(string directory, string configuration)

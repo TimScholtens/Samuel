@@ -21,7 +21,9 @@ public class ChangelogGeneratorStepTests
         {
             OutputFilePath = "Changelog.md",
             Title = "Test",
-            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/",
+            FeatureSectionTitle = "*Features*",
+            FixSectionTitle = "*Fixes*"
         });
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();
@@ -47,7 +49,7 @@ public class ChangelogGeneratorStepTests
         // Assert
         A.CallTo(() => writer.WriteTitle(options.Value.Title)).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(context.NewRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Features")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FeatureSectionTitle)).MustHaveHappenedOnceExactly();
     }
 
     [Fact]
@@ -58,7 +60,9 @@ public class ChangelogGeneratorStepTests
         {
             OutputFilePath = "Changelog.md",
             Title = "Test",
-            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/",
+            FeatureSectionTitle = "*Features*",
+            FixSectionTitle = "*Fixes*"
         });
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();
@@ -101,7 +105,7 @@ public class ChangelogGeneratorStepTests
         A.CallTo(() => writer.WriteTitle(options.Value.Title)).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(newRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(oldRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Features")).MustHaveHappenedTwiceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FeatureSectionTitle)).MustHaveHappenedTwiceExactly();
     }
 
 
@@ -113,7 +117,9 @@ public class ChangelogGeneratorStepTests
         {
             OutputFilePath = "Changelog.md",
             Title = "Test",
-            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/"
+            IssueUrlFormat = "https://dev.azure.com/ScholtensIO/NET-101/_workitems/edit/",
+            FeatureSectionTitle = "*Features*",
+            FixSectionTitle = "*Fixes*"
         });
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();
@@ -143,7 +149,7 @@ public class ChangelogGeneratorStepTests
         // Assert
         A.CallTo(() => writer.WriteTitle(options.Value.Title)).MustHaveHappenedOnceExactly();
         A.CallTo(() => writer.WriteHeader(context.NewRelease.Tag.Version.ToString())).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Features")).MustHaveHappenedOnceExactly();
-        A.CallTo(() => writer.WriteSubTitle("Fixes")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FeatureSectionTitle)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => writer.WriteSubTitle(options.Value.FixSectionTitle)).MustHaveHappenedOnceExactly();
     }
 }

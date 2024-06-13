@@ -26,6 +26,6 @@ public class SemanticVersionUpdaterStep : IPipelineStep
         }
 
         // Set new version.
-        context.NewRelease.Tag = new Domain.AnnotatedTag() { Version = newVersion };
+        context.NewRelease.Tag = new Domain.AnnotatedTag() { Version = newVersion, Commit = biggestChange };
     }
 }

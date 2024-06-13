@@ -73,7 +73,7 @@ public class GitServiceMapper : IGitServiceMapper
         {
             Version = SemanticVersion.FromString(tag.FriendlyName),
             CommitSha = tag.Target.Sha,
-            Name = tag.FriendlyName
+            Name = tag.FriendlyName,
         };
     }
 }

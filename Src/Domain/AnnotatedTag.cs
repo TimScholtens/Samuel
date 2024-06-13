@@ -3,6 +3,6 @@
 public class AnnotatedTag
 {
     public required SemanticVersion Version { get; set; }
-    public string CommitSha { get; set; }
+    public required Commit Commit { get; set; }
     public string Name { get; set; }
 }

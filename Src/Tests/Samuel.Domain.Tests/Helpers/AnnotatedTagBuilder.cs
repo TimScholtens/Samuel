@@ -31,7 +31,8 @@ public class AnnotatedTagBuilder
         {
             Version = _version,
             CommitSha = _commitSha,
-            Name = _name
+            Name = _name,
+            Date = DateOnly.FromDateTime(DateTime.UtcNow)
         };
     }
 }

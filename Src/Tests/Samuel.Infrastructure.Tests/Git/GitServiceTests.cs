@@ -3,6 +3,7 @@ using FluentAssertions;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Samuel.Domain.Tests.Helpers;
 using Samuel.Infrastructure.Git;
 using Samuel.Infrastructure.Tests.Helpers;
 
@@ -54,7 +55,7 @@ public class GitServiceTests
             .WithCommit("Message-1")
             .Build();
         var logger = A.Fake<ILogger<GitService>>();
-        
+
         A.CallTo(() => repoFactory.Create()).Returns(repo);
 
         var sut = new GitService(options, mapper, repoFactory, logger);
@@ -115,7 +116,7 @@ public class GitServiceTests
         var logger = A.Fake<ILogger<GitService>>();
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);
-        
+
         var sut = new GitService(options, mapper, repoFactory, logger);
 
         // Act
@@ -399,10 +400,11 @@ public class GitServiceTests
         var repoFactory = A.Fake<IRepositoryFactory>();
         var logger = A.Fake<ILogger<GitService>>();
 
-        A.CallTo(() => mapper.Map(A<Tag>._)).Returns(new Domain.AnnotatedTag()
+        A.CallTo(() => mapper.Map(A<Tag>._, A<Domain.Commit>._)).Returns(new Domain.AnnotatedTag()
         {
             Version = new Domain.SemanticVersion(1, 0, 0),
-            Name = "1.0.0"
+            Name = "1.0.0",
+            Commit = new CommitBuilder().Build()
         });
 
         A.CallTo(() => repoFactory.Create()).Returns(repo);

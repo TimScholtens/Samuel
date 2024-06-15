@@ -3,14 +3,13 @@
 public class AnnotatedTagBuilder
 {
     private SemanticVersion _version;
-    private string _commitSha;
     private string _name;
+    private Commit _commit;
 
     public AnnotatedTagBuilder()
     {
         _version = new SemanticVersion();
         _name = "tag-1";
-        _commitSha = Guid.NewGuid().ToString();
     }
 
     public AnnotatedTagBuilder WithVersion(string version)
@@ -25,14 +24,19 @@ public class AnnotatedTagBuilder
         return this;
     }
 
+    public AnnotatedTagBuilder WithCommit(Commit commit)
+    {
+        _commit = commit;
+        return this;
+    }
+
     public AnnotatedTag Build()
     {
         return new AnnotatedTag()
         {
             Version = _version,
-            CommitSha = _commitSha,
             Name = _name,
-            Date = DateOnly.FromDateTime(DateTime.UtcNow)
+            Commit = _commit
         };
     }
 }

@@ -7,10 +7,15 @@ public class ReleaseBuilder
 
     public ReleaseBuilder()
     {
-        _commits = new List<Commit>();
+        var tagCommit = new CommitBuilder()
+            .WithMessage("TagCommit")
+            .Build();
+
+        _commits = new List<Commit>() { tagCommit };
         _tag = new AnnotatedTag()
         {
-            Version = new SemanticVersion()
+            Version = new SemanticVersion(),
+            Commit = tagCommit
         };
     }
 

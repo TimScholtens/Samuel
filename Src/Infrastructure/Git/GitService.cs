@@ -27,7 +27,7 @@ public class GitService : IGitService
                 Username = _configuration.Username,
                 Password = _configuration.Password ?? _configuration.Credentials
             });
-        
+
     }
 
     public Domain.Commit? GetCommit(string sha)
@@ -45,6 +45,20 @@ public class GitService : IGitService
     public List<Domain.Commit> GetCommits()
     {
         return _repository.Commits.Select(c => _mapper.Map(c)).ToList();
+    }
+
+    public List<Domain.AnnotatedTag> GetAnnotatedTags()
+    {
+        var annotatedTags = new List<Domain.AnnotatedTag>();
+        var tags = _repository.Tags.ToList();
+
+        foreach (var tag in tags)
+        {
+            var commit = GetCommit(tag.Target.Sha);
+            annotatedTags.Add(_mapper.Map(tag, commit));
+        }
+
+        return annotatedTags;
     }
 
     /// <summary>
@@ -97,8 +111,7 @@ public class GitService : IGitService
 
     public Domain.Release? GetLatestRelease()
     {
-        var latestTags = _repository.Tags
-            .Select(t => _mapper.Map(t))
+        var latestTags = GetAnnotatedTags()
             .OrderByDescending(t => t.Version.Major)
             .OrderByDescending(t => t.Version.Minor)
             .OrderByDescending(t => t.Version.Patch)
@@ -116,7 +129,7 @@ public class GitService : IGitService
         // If only 1 tag.
         if (latestTags.Length == 1)
         {
-            var commitsBeforeLatestTag = GetCommitsBefore(latestTag.CommitSha);
+            var commitsBeforeLatestTag = GetCommitsBefore(latestTag.Commit.Sha);
 
             return new Release()
             {
@@ -127,7 +140,7 @@ public class GitService : IGitService
 
         // If more than 1 tag.
         var secondLatestTag = latestTags[1];
-        var commitsBetweenLatestTags = GetCommitsBetween(secondLatestTag.CommitSha, latestTag.CommitSha);
+        var commitsBetweenLatestTags = GetCommitsBetween(secondLatestTag.Commit.Sha, latestTag.Commit.Sha);
 
         return new Release()
         {
@@ -139,8 +152,7 @@ public class GitService : IGitService
     public List<Release> GetAllReleases()
     {
         var releases = new List<Release>();
-        var tags = _repository.Tags
-            .Select(t => _mapper.Map(t))
+        var tags = GetAnnotatedTags()
             .OrderBy(t => t.Version.Major)
             .ThenBy(t => t.Version.Minor)
             .ThenBy(t => t.Version.Patch)
@@ -149,14 +161,14 @@ public class GitService : IGitService
         for (int index = 0; index < tags.Count; index++)
         {
             var currentTag = tags[index];
-            var currentCommit = GetCommit(currentTag.CommitSha);
+            var currentCommit = GetCommit(currentTag.Commit.Sha);
 
             // If no previous tag.
             if (index == 0)
             {
                 releases.Add(new Release()
                 {
-                    Commits = [currentCommit, ..GetCommitsBefore(currentTag.CommitSha)],
+                    Commits = [currentCommit, .. GetCommitsBefore(currentTag.Commit.Sha)],
                     Tag = currentTag
                 });
                 continue;
@@ -164,8 +176,8 @@ public class GitService : IGitService
 
             var previousTag = tags[index - 1];
 
-            _logger.LogDebug($"{nameof(GitService)}: Retrieving commits between tags {previousTag.Name}({previousTag.CommitSha}) to {currentTag.Name}({currentTag.CommitSha})...");
-            List<Domain.Commit> commitsBetweenTags = [currentCommit, .. GetCommitsBetween(previousTag.CommitSha, currentTag.CommitSha)];
+            _logger.LogDebug($"{nameof(GitService)}: Retrieving commits between tags {previousTag.Name}({previousTag.Commit.Sha}) to {currentTag.Name}({currentTag.Commit.Sha})...");
+            List<Domain.Commit> commitsBetweenTags = [currentCommit, .. GetCommitsBetween(previousTag.Commit.Sha, currentTag.Commit.Sha)];
 
             _logger.LogDebug($"{nameof(GitService)}: Found {commitsBetweenTags.Count} commits.");
 

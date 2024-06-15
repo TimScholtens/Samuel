@@ -67,12 +67,12 @@ public class GitServiceMapper : IGitServiceMapper
         return commitType;
     }
 
-    public AnnotatedTag? Map(LibGit2Sharp.Tag tag)
+    public AnnotatedTag? Map(LibGit2Sharp.Tag tag, Domain.Commit commit)
     {
         return tag is null ? null : new AnnotatedTag()
         {
             Version = SemanticVersion.FromString(tag.FriendlyName),
-            CommitSha = tag.Target.Sha,
+            Commit = commit,
             Name = tag.FriendlyName,
         };
     }

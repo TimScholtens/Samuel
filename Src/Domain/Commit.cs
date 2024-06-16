@@ -8,6 +8,6 @@ public record Commit
     public required CommitType Type { get; init; }
     public required string Description { get; init; }
     public required string Title { get; init; }
-    public required DateTime CreatedAt { get; init; }
+    public required DateOnly CreatedAt { get; init; }
     public required string[]? RelatedWorkItemsIds { get; init; }
 }

@@ -28,7 +28,7 @@ public class GitServiceMapper : IGitServiceMapper
         {
             Id = commit.Id.ToString(),
             Sha = commit.Sha,
-            CreatedAt = commit.Author.When.UtcDateTime,
+            CreatedAt = DateOnly.FromDateTime(commit.Author.When.UtcDateTime),
             RawContent = commit.Message,
             Title = title,
             Description = description,

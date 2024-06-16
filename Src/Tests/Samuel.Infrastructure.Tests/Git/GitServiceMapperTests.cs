@@ -20,7 +20,6 @@ public class GitServiceMapperTests
             CommiterName = "ChangelogBot@noreply.com",
             CommitMessageParseRegex = "^Merged PR (\\d+): (\\w*): (.*)"
         });
-
         var commit = new LibGitCommitBuilder()
             .WithAuthorEmail(options.Value.CommiterEmail)
             .WithAuthorName(options.Value.CommiterName)
@@ -34,7 +33,7 @@ public class GitServiceMapperTests
 
         // Assert
         result.RawContent.Should().Be(description);
-        result.CreatedAt.Should().Be(commit.Author.When.UtcDateTime);
+        result.CreatedAt.Should().Be(DateOnly.FromDateTime(commit.Author.When.UtcDateTime));
     }
 
     [Theory]
@@ -64,7 +63,7 @@ public class GitServiceMapperTests
         // Assert
         result.Description.Should().Be(description);
         result.RelatedWorkItemsIds.Should().BeEquivalentTo(workItemsIds);
-        result.CreatedAt.Should().Be(commit.Author.When.UtcDateTime);
+        result.CreatedAt.Should().Be(DateOnly.FromDateTime(commit.Author.When.UtcDateTime));
     }
 
 

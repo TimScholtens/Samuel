@@ -3,7 +3,7 @@
 public class CommitBuilder
 {
     private string _id;
-    private DateTime _createdAt;
+    private DateOnly _createdAt;
     private string _description;
     private string _message;
     private string[] _relatedWorkItems;
@@ -15,7 +15,7 @@ public class CommitBuilder
     {
         _id = "1";
         _sha = "1";
-        _createdAt = DateTime.Now;
+        _createdAt = DateOnly.FromDateTime(DateTime.UtcNow);
         _description = string.Empty;
         _message = string.Empty;
         _relatedWorkItems = new string[] { "1", "2" };
@@ -32,6 +32,12 @@ public class CommitBuilder
     public CommitBuilder WithMessage(string message)
     {
         _message = message;
+        return this;
+    }
+
+    public CommitBuilder WithCreatedAt(DateOnly date)
+    {
+        _createdAt = date;
         return this;
     }
 

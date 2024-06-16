@@ -4,6 +4,7 @@ using Samuel.Application.Features.SemanticRelease.Shared.Git;
 using Samuel.Application.Features.SemanticRelease.Shared.Pipeline;
 using Samuel.Application.Features.SemanticRelease.Shared.Pipeline.Step;
 using Samuel.Domain;
+using System.Globalization;
 
 namespace Samuel.Application.Features.SemanticRelease.Changelog;
 
@@ -33,7 +34,7 @@ public class ChangelogGeneratorStep : IPipelineStep
 
         foreach (var release in reversedOrderAllReleases.ToList())
         {
-            _writer.WriteHeader($"{release.Tag.Version}");
+            _writer.WriteHeader($"{release.Tag.Version} {release.Tag.Commit.CreatedAt.ToString("dd-M-yyyy", CultureInfo.InvariantCulture)}");
 
             // Write features.
             _writer.WriteSubTitle(_config.FeatureSectionTitle);

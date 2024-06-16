@@ -10,6 +10,7 @@ public class AnnotatedTagBuilder
     {
         _version = new SemanticVersion();
         _name = "tag-1";
+        _commit = new CommitBuilder().Build();
     }
 
     public AnnotatedTagBuilder WithVersion(string version)

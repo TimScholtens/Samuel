@@ -28,7 +28,7 @@ public class ChangelogGeneratorStepTests
         var gitService = A.Fake<IGitService>();
         var logger = A.Fake<ILogger<SemanticReleaser>>();
         var writer = A.Fake<IChangelogWriter>();
-        var commit = new CommitBuilder()
+        var newCommit = new CommitBuilder()
             .WithType(CommitType.Breaking)
             .Build();
         var tag = new AnnotatedTagBuilder().Build();
@@ -36,7 +36,7 @@ public class ChangelogGeneratorStepTests
         {
             NewRelease = new ReleaseBuilder()
                 .WithTag(tag)
-                .WithCommit(commit)
+                .WithCommit(newCommit)
                 .Build()
         };
         var sut = new ChangelogGeneratorStep(options, gitService, logger, writer);

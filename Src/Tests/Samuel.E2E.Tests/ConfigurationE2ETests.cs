@@ -2,6 +2,7 @@
 using Samuel.CLI;
 using Samuel.E2E.Tests.Helpers;
 using Samuel.Infrastructure.Tests.Helpers;
+using System.Globalization;
 using System.Text.Json;
 
 namespace Samuel.E2E.Tests;
@@ -15,9 +16,10 @@ public class ConfigurationE2ETests
     {
         // Arrange
         var path = Path.Combine(Path.GetTempPath(), $"samuel-{Guid.NewGuid()}");
+        var createdCommitAtDate = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc);
 
         new LibGitRepositoryBuilder(path)
-            .WithCommit("Merged PR 1: BREAKING: added caching")
+            .WithCommit("Merged PR 1: BREAKING: added caching", createdCommitAtDate)
             .Build();
 
         Directory.SetCurrentDirectory(path);
@@ -36,7 +38,7 @@ public class ConfigurationE2ETests
         exitCode.Should().Be(0);
         changelogContent.Should().Be(string.Join(Environment.NewLine,
                                         $"# {configurationOptions.ChangelogGenerator.Title}",
-                                        "## 1.0.0",
+                                        $"## 1.0.0 {DateOnly.FromDateTime(createdCommitAtDate).ToString("dd-M-yyyy", CultureInfo.InvariantCulture)}",
                                         $"*{configurationOptions.ChangelogGenerator.FeaturesSectionTitle}*",
                                         $"- Merged PR 1: BREAKING: added caching{Environment.NewLine}{Environment.NewLine}"));
     }
